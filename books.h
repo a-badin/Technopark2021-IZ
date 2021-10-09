@@ -20,11 +20,12 @@ typedef struct t_library {
     t_reader* reader_head;
 } t_library;
 
-void books_on_hands(t_library* library);
+int count_readers(t_library* library);
+int* books_on_hands(t_library* library);
 
 t_library* create_library();
 void push_book(t_library* library, int code);
-void push_reader(t_library* library, int code);
+int push_reader(t_library* library, int code);
 
 void pop_book(t_library* library);
 void pop_reader(t_library* library);

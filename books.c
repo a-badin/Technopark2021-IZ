@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
-int static count_readers(t_library* library) {
+int count_readers(t_library* library) {
     int count = 0;
     t_reader* tmp = library->reader_head;
     while (tmp != NULL) {
@@ -12,18 +12,19 @@ int static count_readers(t_library* library) {
     return count;
 }
 
-void books_on_hands(t_library* library) {
+int* books_on_hands(t_library* library) {
     if (library->reader_head == NULL || library->book_head == NULL) {
-        printf("%d\n", 0);
-        return;
+        return NULL;
     }
-    printf("Count of readers: %d\n", count_readers(library));
-    printf("Codes of the books taken:\n");
+    int* res = (int*)calloc(count_readers(library), sizeof(int));
     t_reader* tmp = library->reader_head;
+    int i = 0;
     while (tmp != NULL) {
-        printf("%d\n", tmp->book_code);
+        res[i] = tmp->book_code;
+        ++i;
         tmp = tmp->next;
     }
+    return res;
 }
 
 t_library* create_library() {
@@ -50,13 +51,27 @@ void push_book(t_library* library, int code) {
     tmp->next = node;
 }
 
-void push_reader(t_library* library, int code) {
+int static book_exist(t_library* library, int code) {
+    t_book* tmp = library->book_head;
+    while (tmp != NULL) {
+        if (tmp->code == code) {
+            return 1;
+        }
+        tmp = tmp->next;
+    }
+    return 0;
+}
+
+int push_reader(t_library* library, int code) {
+    if (!book_exist(library, code)) {
+        return 0;
+    }
     if (library->reader_head == NULL) {
         t_reader* node = (t_reader*) calloc(1, sizeof(t_reader));
         node->book_code = code;
         node->next = NULL;
         library->reader_head = node;
-        return;
+        return 1;
     }
     t_reader* tmp = library->reader_head;
     while (tmp->next != NULL)
@@ -65,6 +80,7 @@ void push_reader(t_library* library, int code) {
     node->book_code = code;
     node->next = NULL;
     tmp->next = node;
+    return 1;
 }
 
 void pop_book(t_library* library) {
