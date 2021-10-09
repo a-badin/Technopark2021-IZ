@@ -1,0 +1,16 @@
+language: c
+os:
+  - linux
+compiler:
+  - gcc
+install:
+  - sudo apt-get install cmake
+  - sudo apt-get install libgtest-dev
+  - cd /usr/src/gtest
+  - sudo cmake CMakeLists.txt
+  - sudo make
+  - sudo cp *.a /usr/lib
+  - cd -
+script:
+  - sudo cmake CMakeLists.txt
+  - sudo make
