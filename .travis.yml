@@ -1,0 +1,8 @@
+language: c
+os:
+  - linux
+
+branches:
+  only:
+    - IZ-1
+    - main
