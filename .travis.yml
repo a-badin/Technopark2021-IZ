@@ -12,7 +12,7 @@ install:
   - sudo cp *.a /usr/lib
   - cd -
 script:
-  - sudo cmake CMakeLists.txt
-  - sudo make
+  - cmake CMakeLists.txt
+  - cmake --build .
   after_success:
   - bash <(curl -s https://codecov.io/bash)
