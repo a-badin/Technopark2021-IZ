@@ -12,7 +12,9 @@ install:
   - sudo cp *.a /usr/lib
   - cd -
 script:
-  - sudo cmake CMakeLists.txt
-  - sudo make
+  - mkrdir build
+  - cd build
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DTARGET_CPU=$TARGET_CPU
+  - cmake ..build
   after_success:
   - bash <(curl -s https://codecov.io/bash)
